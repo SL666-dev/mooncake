@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="中秋限时福利，298元月饼礼盒免费领，数量有限先到先得">
+<title>拼夕夕 · 中秋月饼免费领</title>
+<style>
+:root{
+  --red:#e02e24;--red2:#ff4c2b;--orange:#ff8a00;--gold:#ffd84d;--cream:#fff6e5;
+  --ink:#3a1a00;--muted:#9a6a4a;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  background:linear-gradient(180deg,#ff3d22 0%,#ff6a1a 38%,#ffb347 100%);
+  background-attachment:fixed;color:var(--ink);min-height:100%;
+  -webkit-user-select:none;user-select:none;-webkit-text-size-adjust:100%;
+  overflow-x:hidden;
+}
+.wrap{max-width:480px;margin:0 auto;padding:0 14px calc(28px + env(safe-area-inset-bottom))}
+/* 顶栏 */
+.top{display:flex;align-items:center;justify-content:space-between;padding:12px 2px 6px;color:#fff}
+.logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:20px;letter-spacing:1px}
+.logo i{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:#fff;color:var(--red);font-style:normal;font-size:16px;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.rule{font-size:12px;background:rgba(0,0,0,.18);padding:4px 10px;border-radius:12px}
+/* 滚动播报 */
+.ticker{height:26px;overflow:hidden;margin:4px 0 10px;border-radius:13px;background:rgba(0,0,0,.2);color:#fff;font-size:12px}
+.ticker ul{list-style:none;transition:transform .5s}
+.ticker li{height:26px;line-height:26px;padding:0 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ticker b{color:var(--gold);font-weight:600}
+/* 标题 */
+.hero{text-align:center;color:#fff;padding:6px 0 12px}
+.hero .tag{display:inline-block;background:var(--gold);color:var(--red);font-weight:800;font-size:13px;padding:3px 12px;border-radius:12px;transform:rotate(-2deg)}
+.hero h1{font-size:30px;line-height:1.25;font-weight:900;margin-top:10px;text-shadow:0 3px 0 #b3150c,0 6px 14px rgba(0,0,0,.2)}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{font-size:14px;opacity:.95;margin-top:6px}
+/* 卡片 */
+.card{background:var(--cream);border-radius:18px;padding:20px 16px;box-shadow:0 8px 0 #c9380f,0 16px 30px rgba(0,0,0,.18);position:relative;text-align:center}
+.card+.card{margin-top:16px}
+.gift{font-size:88px;line-height:1;margin:6px 0 4px;animation:bob 1.6s ease-in-out infinite;display:inline-block}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+.price{margin:8px 0 2px}
+.price s{color:var(--muted);font-size:14px;margin-right:6px}
+.price b{color:var(--red);font-size:34px;font-weight:900}
+.price b small{font-size:18px}
+.sub{color:var(--muted);font-size:13px}
+.count{display:inline-flex;gap:4px;align-items:center;margin-top:10px;font-size:13px;color:var(--red)}
+.count span{background:var(--red);color:#fff;border-radius:4px;padding:1px 5px;font-variant-numeric:tabular-nums;font-weight:700}
+/* 按钮 */
+.btn{display:block;width:100%;border:0;outline:0;cursor:pointer;margin-top:16px;
+  font:inherit;font-size:21px;font-weight:900;letter-spacing:2px;color:#fff;
+  padding:16px 0;border-radius:40px;
+  background:linear-gradient(180deg,#ff6d3b 0%,#e02e24 100%);
+  box-shadow:0 6px 0 #9e1208,0 10px 20px rgba(224,46,36,.4);
+  animation:pulse 1.1s ease-in-out infinite;position:relative;overflow:hidden}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #9e1208}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 2.2s infinite}
+.btn.gold{background:linear-gradient(180deg,#ffe36e 0%,#ffb800 100%);color:#8a1a00;box-shadow:0 6px 0 #b86e00,0 10px 20px rgba(255,160,0,.45)}
+.btn[disabled]{opacity:.6;animation:none}
+@keyframes pulse{50%{transform:scale(1.04)}}
+@keyframes shine{0%{left:-60%}60%,100%{left:130%}}
+/* 转盘 */
+.wheel-box{position:relative;width:290px;height:290px;margin:4px auto 0}
+.wheel-rim{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#ffcf3a 0 64%,#e02e24 65% 100%);box-shadow:0 8px 0 #a3190c,0 12px 24px rgba(0,0,0,.25)}
+.bulb{position:absolute;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#fff6c8;box-shadow:0 0 6px #fff}
+.bulb:nth-child(odd){animation:blink .6s steps(1) infinite}
+.bulb:nth-child(even){animation:blink .6s steps(1) infinite .3s}
+@keyframes blink{50%{background:#ffb800;box-shadow:none}}
+.wheel{position:absolute;inset:18px;border-radius:50%;overflow:hidden;
+  background:conic-gradient(#ff5a3c 0 45deg,#fff3d6 45deg 90deg,#ff5a3c 90deg 135deg,#fff3d6 135deg 180deg,#ff5a3c 180deg 225deg,#fff3d6 225deg 270deg,#ff5a3c 270deg 315deg,#fff3d6 315deg 360deg);
+  transition:transform 4.6s cubic-bezier(.17,.67,.12,1);will-change:transform}
+.seg{position:absolute;left:50%;top:0;width:60px;margin-left:-30px;height:50%;transform-origin:50% 100%;text-align:center;padding-top:14px;font-size:12px;font-weight:800;line-height:1.2}
+.seg i{display:block;font-style:normal;font-size:22px;margin-bottom:2px}
+.seg.r{color:#fff}.seg.w{color:var(--red)}
+.pointer{position:absolute;left:50%;top:50%;width:78px;height:78px;margin:-39px 0 0 -39px;border-radius:50%;
+  background:radial-gradient(circle at 50% 35%,#ff7a4d,#d91e12);border:4px solid #ffe08a;color:#fff;font-weight:900;font-size:17px;
+  display:grid;place-items:center;box-shadow:0 4px 10px rgba(0,0,0,.3);z-index:2}
+.pointer::before{content:"";position:absolute;left:50%;top:-28px;margin-left:-13px;border:13px solid transparent;border-bottom:24px solid #ffe08a;border-top:0}
+.pointer::after{content:"";position:absolute;left:50%;top:-20px;margin-left:-9px;border:9px solid transparent;border-bottom:18px solid #d91e12;border-top:0}
+/* 砍价 */
+.prize-row{display:flex;gap:12px;align-items:center;text-align:left}
+.prize-img{flex:none;width:86px;height:86px;border-radius:12px;background:linear-gradient(135deg,#ffe2a8,#ffb85c);display:grid;place-items:center;font-size:52px;box-shadow:inset 0 0 0 2px #fff}
+.prize-row h3{font-size:17px;line-height:1.3}
+.prize-row .p{margin-top:6px;color:var(--red);font-weight:900;font-size:20px}
+.prize-row .p s{color:var(--muted);font-weight:400;font-size:13px;margin-left:6px}
+.bar-title{margin-top:18px;font-size:15px;font-weight:700}
+.bar-title b{color:var(--red);font-size:22px}
+.bar{position:relative;height:22px;margin:12px 0 6px;border-radius:11px;background:#ffd9c2;overflow:hidden;box-shadow:inset 0 2px 3px rgba(0,0,0,.12)}
+.bar i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:11px;
+  background:repeating-linear-gradient(-45deg,#ff5a2c 0 10px,#ff7a2c 10px 20px);background-size:28px 28px;animation:stripes .8s linear infinite}
+@keyframes stripes{to{background-position:28px 0}}
+.bar span{position:absolute;right:8px;top:0;line-height:22px;font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.3);font-variant-numeric:tabular-nums}
+.bar-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.bar-foot b{color:var(--red)}
+.hint{margin-top:14px;background:#fff;border:1.5px dashed var(--red2);border-radius:12px;padding:10px;font-size:15px;font-weight:700;color:var(--red)}
+.hint small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:3px}
+.helpers h4{font-size:15px;text-align:left;margin-bottom:8px}
+.helpers ul{list-style:none;text-align:left}
+.helpers li{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid #f3dcc0;font-size:14px;animation:pop .4s}
+.helpers li:first-child{border-top:0}
+.helpers .av{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:18px;background:#ffe2c9}
+.helpers .cut{margin-left:auto;color:var(--red);font-weight:800;white-space:nowrap}
+.helpers .empty{color:var(--muted);font-size:13px;padding:6px 0;text-align:center}
+@keyframes pop{from{transform:scale(.8);opacity:0}}
+/* 弹窗 */
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
+.mask.show{display:flex}
+.modal{width:100%;max-width:340px;background:var(--cream);border-radius:20px;padding:24px 18px 20px;text-align:center;animation:zoom .35s cubic-bezier(.2,1.6,.4,1);position:relative}
+@keyframes zoom{from{transform:scale(.5);opacity:0}}
+.modal .big{font-size:72px;line-height:1}
+.modal h2{font-size:22px;color:var(--red);margin-top:10px}
+.modal p{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.5}
+.modal .close{position:absolute;right:10px;top:8px;font-size:24px;color:#bbb;padding:4px 8px}
+.copybox{margin-top:12px;background:#fff;border:1px solid #f0c9a8;border-radius:10px;padding:12px;font-size:14px;line-height:1.5;text-align:left;word-break:break-all;color:var(--ink);
+  -webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+.burst{background:radial-gradient(circle,rgba(255,216,77,.9) 0,rgba(255,216,77,0) 70%)}
+/* toast */
+.toast{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%);background:rgba(0,0,0,.78);color:#fff;padding:12px 18px;border-radius:10px;font-size:15px;z-index:80;opacity:0;pointer-events:none;transition:opacity .25s;text-align:center;max-width:80%}
+.toast.show{opacity:1}
+/* 彩带 */
+.confetti{position:fixed;top:-40px;font-size:26px;z-index:60;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+/* 视频 */
+.player{position:fixed;inset:0;background:#000;z-index:100;display:none}
+.player.show{display:block}
+.player video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.tap-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:none;color:#fff;font-size:18px;border:2px solid #fff;border-radius:30px;padding:12px 26px;background:rgba(255,255,255,.1)}
+.ending{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:24px;
+  background:radial-gradient(circle at 50% 38%,#3b2a5a 0,#120a24 70%)}
+.ending.show{display:flex}
+.moon{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 38% 35%,#fff8d8,#ffd66b 60%,#f0b43a);box-shadow:0 0 60px 10px rgba(255,214,107,.45);margin-bottom:26px}
+.ending h2{font-size:36px;font-weight:900;letter-spacing:3px}
+.ending p{opacity:.75;margin-top:10px;font-size:14px}
+.ending .btn{max-width:300px}
+.hide{display:none!important}
+.foot{color:rgba(255,255,255,.85);font-size:11px;text-align:center;margin-top:18px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="logo"><i>拼</i>拼夕夕</div>
+    <div class="rule" id="ruleBtn">活动规则</div>
+  </div>
+  <div class="ticker"><ul id="ticker"></ul></div>
+
+  <!-- 第1步：领取 -->
+  <section id="s1">
+    <div class="hero">
+      <span class="tag">中秋限时福利 · 今日仅剩 37 份</span>
+      <h1>恭喜你获得<br><em>免费中秋月饼礼盒</em>一份</h1>
+      <p>官方补贴 · 包邮到家 · 0元带回家</p>
+    </div>
+    <div class="card">
+      <div class="gift">🎁</div>
+      <div class="price"><s>¥298.00</s><b><small>¥</small>0.00</b></div>
+      <div class="sub">流心奶黄 · 五仁 · 蛋黄莲蓉 豪华8枚装</div>
+      <div class="count">活动倒计时 <span id="h">00</span>:<span id="m">00</span>:<span id="s">00</span>.<span id="ms">0</span></div>
+      <button class="btn" id="drawBtn">立即抽奖</button>
+    </div>
+  </section>
+
+  <!-- 第2步：转盘 -->
+  <section id="s2" class="hide">
+    <div class="hero">
+      <h1>幸运大转盘</h1>
+      <p>100% 中奖 · 好运马上来</p>
+    </div>
+    <div class="card">
+      <div class="wheel-box">
+        <div class="wheel-rim" id="rim"></div>
+        <div class="wheel" id="wheel"></div>
+        <div class="pointer">抽奖</div>
+      </div>
+      <div class="sub" style="margin-top:14px" id="spinTip">转盘转动中，请稍候…</div>
+    </div>
+  </section>
+
+  <!-- 第3步：砍价 -->
+  <section id="s3" class="hide">
+    <div class="hero" style="padding-bottom:10px">
+      <h1 style="font-size:26px">砍一刀 · <em>免费拿</em></h1>
+    </div>
+    <div class="card">
+      <div class="prize-row">
+        <div class="prize-img">🥮</div>
+        <div>
+          <h3>【中秋限定】豪华月饼礼盒 8枚装 流心奶黄+蛋黄莲蓉</h3>
+          <div class="p">¥0.00<s>¥298.00</s></div>
+        </div>
+      </div>
+      <div class="bar-title">已砍 <b id="cutMoney">¥0.00</b>，仅差 <b id="leftMoney">¥298.00</b></div>
+      <div class="bar"><i id="barFill"></i><span id="barPct">0%</span></div>
+      <div class="bar-foot"><span>¥0</span><span><b id="remainTime">23:59:59</b> 后失效</span><span>¥298</span></div>
+      <div class="hint" id="hint">仅差 <span id="hintPct">0.1%</span> 即可免费领取，邀请好友帮砍
+        <small id="hintSub">好友点击即可助力，砍成立即包邮到家</small></div>
+      <button class="btn" id="shareBtn">分享给好友帮砍一刀</button>
+      <button class="btn gold hide" id="claimBtn">砍价成功！点击领取月饼</button>
+    </div>
+    <div class="card helpers">
+      <h4>🔥 好友助力榜</h4>
+      <ul id="helpers"><li class="empty">还没有好友助力，快去邀请吧~</li></ul>
+    </div>
+  </section>
+
+  <div class="foot">本活动由拼夕夕中秋补贴频道提供<br>活动商品数量有限，先砍先得，砍完即止</div>
+</div>
+
+<!-- 弹窗 -->
+<div class="mask" id="mask">
+  <div class="modal" id="modal">
+    <span class="close" id="modalClose">×</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- 视频 -->
+<div class="player" id="player">
+  <video id="video" src="prank.mp4" preload="auto" playsinline webkit-playsinline="true" x5-playsinline="true"
+    x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-video-orientation="portrait"></video>
+  <div class="tap-play" id="tapPlay">▶ 点击领取</div>
+  <div class="ending" id="ending">
+    <div class="moon"></div>
+    <h2>中秋快乐 🥮</h2>
+    <p>月饼没有，快乐管够</p>
+    <button class="btn gold" id="againBtn">再坑一个朋友</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var TOTAL = 298;
+  var STAGES = [99.9, 99.99, 99.999];   // 分享 0/1/2 次时的进度
+  var KEY = 'pxx_mid_autumn';
+
+  /* ---------- sessionStorage ---------- */
+  function load(){
+    try { var v = JSON.parse(sessionStorage.getItem(KEY)); if (v && typeof v === 'object') return v; } catch(e){}
+    return null;
+  }
+  function save(){
+    try { sessionStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+  }
+  var state = load() || { step: 1, shares: 0, pending: false };
+
+  /* ---------- 通用 ---------- */
+  function show(id){
+    ['s1','s2','s3'].forEach(function(s){ $(s).classList.toggle('hide', s !== id); });
+    window.scrollTo(0, 0);
+  }
+  var toastTimer;
+  function toast(msg, ms){
+    var t = $('toast'); t.innerHTML = msg; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function(){ t.classList.remove('show'); }, ms || 1800);
+  }
+  function modal(html, closable){
+    $('modalBody').innerHTML = html;
+    $('modalClose').style.display = closable === false ? 'none' : '';
+    $('mask').classList.add('show');
+  }
+  function closeModal(){ $('mask').classList.remove('show'); }
+  $('modalClose').onclick = closeModal;
+  $('mask').addEventListener('click', function(e){ if (e.target === this && $('modalClose').style.display !== 'none') closeModal(); });
+  function confetti(n){
+    var items = ['🥮','🎉','🧧','✨','🌕','💰'];
+    for (var i = 0; i < n; i++){
+      var el = document.createElement('div');
+      el.className = 'confetti';
+      el.textContent = items[i % items.length];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.animationDuration = (2 + Math.random() * 2) + 's';
+      el.style.animationDelay = Math.random() * .8 + 's';
+      document.body.appendChild(el);
+      (function(e){ setTimeout(function(){ e.remove(); }, 5000); })(el);
+    }
+  }
+
+  /* ---------- 滚动播报 ---------- */
+  var names = ['王**','李*明','张**','刘*','陈*华','杨**','赵*','黄*婷','周**','吴*杰','徐**','孙*'];
+  var cities = ['北京','上海','广州','深圳','杭州','成都','武汉','西安','南京','重庆','长沙','苏州'];
+  var ul = $('ticker'), tickHTML = '';
+  for (var i = 0; i < 12; i++){
+    tickHTML += '<li>🎉 ' + cities[i] + '的<b>' + names[(i*5)%12] + '</b> ' + (i%3===0 ? '刚刚免费领取了月饼礼盒' : '已砍成功，礼盒已发货') + '</li>';
+  }
+  ul.innerHTML = tickHTML;
+  ul.appendChild(ul.firstChild.cloneNode(true));   // 首条复制到末尾，无缝循环
+  var tickIdx = 0;
+  setInterval(function(){
+    tickIdx++;
+    ul.style.transition = 'transform .5s';
+    ul.style.transform = 'translateY(' + (-26 * tickIdx) + 'px)';
+    if (tickIdx === 12){
+      setTimeout(function(){ ul.style.transition = 'none'; ul.style.transform = 'translateY(0)'; tickIdx = 0; }, 520);
+    }
+  }, 2200);
+
+  /* ---------- 倒计时 ---------- */
+  var deadline = Date.now() + (2 * 3600 + 17 * 60 + 43) * 1000;
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+  setInterval(function(){
+    var d = Math.max(0, deadline - Date.now());
+    var h = Math.floor(d / 3600000), m = Math.floor(d / 60000) % 60, s = Math.floor(d / 1000) % 60;
+    $('h').textContent = pad(h); $('m').textContent = pad(m); $('s').textContent = pad(s);
+    $('ms').textContent = Math.floor(d / 100) % 10;
+    $('remainTime').textContent = pad(h + 21) + ':' + pad(m) + ':' + pad(s);
+  }, 100);
+
+  $('ruleBtn').onclick = function(){
+    modal('<h2>活动规则</h2><p style="text-align:left">1. 每位用户可免费抽奖一次，100%中奖；<br>2. 邀请好友助力砍价，砍至100%即可免费领取；<br>3. 礼盒包邮到家，活动最终解释权归拼夕夕所有。</p>');
+  };
+
+  /* ---------- 转盘 ---------- */
+  var prizes = [
+    ['🥮','298元<br>月饼礼盒'], ['🧧','谢谢<br>参与'], ['📱','手机<br>一台'], ['💰','现金<br>888元'],
+    ['🍵','茶叶<br>礼盒'], ['🎫','5元<br>优惠券'], ['🐇','玉兔<br>公仔'], ['🍐','再来<br>一次']
+  ];
+  var wheel = $('wheel');
+  prizes.forEach(function(p, i){
+    var seg = document.createElement('div');
+    seg.className = 'seg ' + (i % 2 ? 'w' : 'r');
+    seg.style.transform = 'rotate(' + (i * 45 + 22.5) + 'deg)';
+    seg.innerHTML = '<i>' + p[0] + '</i>' + p[1];
+    wheel.appendChild(seg);
+  });
+  var rim = $('rim');
+  for (var b = 0; b < 16; b++){
+    var bulb = document.createElement('div'), a = b / 16 * Math.PI * 2;
+    bulb.className = 'bulb';
+    bulb.style.left = (50 + Math.sin(a) * 46.5) + '%';
+    bulb.style.top = (50 - Math.cos(a) * 46.5) + '%';
+    rim.appendChild(bulb);
+  }
+
+  $('drawBtn').onclick = function(){
+    show('s2');
+    wheel.style.transform = 'rotate(0deg)';
+    wheel.offsetWidth; // 强制回流，保证动画生效
+    var jitter = Math.random() * 24 - 12;
+    setTimeout(function(){ wheel.style.transform = 'rotate(' + (360 * 7 - 22.5 + jitter) + 'deg)'; }, 60);
+    setTimeout(function(){
+      $('spinTip').textContent = '恭喜中奖！';
+      confetti(24);
+      modal('<div class="big burst">🥮</div><h2>恭喜抽中价值 298 元<br>中秋月饼礼盒！</h2><p>好友帮砍一刀即可 0 元免费领取<br>礼盒已为你锁定 24 小时</p><button class="btn" id="goCut">立即免费领取</button>', false);
+      $('goCut').onclick = function(){ closeModal(); startCut(); };
+    }, 4800);
+  };
+
+  /* ---------- 砍价进度 ---------- */
+  var curPct = 0, animId = 0;
+  function renderPct(p){
+    var dec = p >= 99.995 ? 3 : (p >= 99.95 ? 2 : 1);
+    var left = TOTAL * (100 - p) / 100;
+    var leftDec = left < 0.01 && left > 0 ? 3 : 2;
+    $('barFill').style.width = Math.min(p, 100) + '%';
+    $('barPct').textContent = p >= 100 ? '100%' : p.toFixed(dec) + '%';
+    $('cutMoney').textContent = '¥' + (TOTAL - left).toFixed(leftDec);
+    $('leftMoney').textContent = '¥' + left.toFixed(leftDec);
+  }
+  function animateTo(target, dur, done){
+    var from = curPct, t0 = null, id = ++animId;
+    function step(ts){
+      if (id !== animId) return;
+      if (t0 === null) t0 = ts;
+      var k = Math.min(1, (ts - t0) / dur);
+      var e = 1 - Math.pow(1 - k, 4);          // 先猛冲后慢爬
+      curPct = from + (target - from) * e;
+      renderPct(curPct);
+      if (k < 1) requestAnimationFrame(step); else { curPct = target; renderPct(target); if (done) done(); }
+    }
+    requestAnimationFrame(step);
+  }
+  function hintFor(shares){
+    var gap = ['0.1%', '0.01%', '0.001%'][shares] || '0.001%';
+    $('hintPct').textContent = gap;
+    $('hintSub').textContent = shares === 0 ? '好友点击即可助力，砍成立即包邮到家'
+      : shares === 1 ? '就差一点点了！再邀请 1 位好友马上成功'
+      : '最后一刀！再邀请 1 位好友即可免费领取';
+  }
+  var helperPool = [['🐱','小喵同学','¥0.27'],['🐶','阿旺','¥0.027'],['🦊','狐狸不吃月饼','¥0.003']];
+  function renderHelpers(n){
+    var list = $('helpers');
+    if (!n){ list.innerHTML = '<li class="empty">还没有好友助力，快去邀请吧~</li>'; return; }
+    var html = '';
+    for (var i = n - 1; i >= 0; i--){
+      var h = helperPool[i];
+      html += '<li><span class="av">' + h[0] + '</span><span>' + h[1] + '<br><small style="color:#9a6a4a">刚刚 帮你砍了一刀</small></span><span class="cut">砍掉' + h[2] + '</span></li>';
+    }
+    list.innerHTML = html;
+  }
+  function setClaimVisible(on){
+    $('claimBtn').classList.toggle('hide', !on);
+    $('shareBtn').classList.toggle('hide', on);
+    $('hint').classList.toggle('hide', on);
+  }
+  function startCut(){
+    state.step = 3; state.shares = 0; state.pending = false; save();
+    show('s3'); setClaimVisible(false); renderHelpers(0); hintFor(0);
+    curPct = 0; renderPct(0);
+    animateTo(99.9, 2600, function(){ toast('仅差 0.1%！<br>邀请好友帮砍即可免费领取', 2200); });
+  }
+  function restoreCut(){
+    show('s3'); hintFor(state.shares); renderHelpers(state.shares);
+    if (state.shares >= 3){ curPct = 100; renderPct(100); setClaimVisible(true); }
+    else { curPct = STAGES[state.shares]; renderPct(curPct); setClaimVisible(false); }
+  }
+
+  /* ---------- 分享 & 复制 ---------- */
+  function shareText(){
+    return '帮我砍一刀！中秋月饼免费领👉 ' + location.href.split('#')[0];
+  }
+  function execCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;font-size:16px';
+    document.body.appendChild(ta);
+    var ok = false;
+    try {
+      ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+      ok = document.execCommand('copy');
+    } catch(e){ ok = false; }
+    document.body.removeChild(ta);
+    if (window.getSelection) try { window.getSelection().removeAllRanges(); } catch(e){}
+    return ok;
+  }
+  function copied(){ toast('✅ 已复制，快去发给好友<br><small>粘贴到微信聊天即可</small>', 2400); }
+  function copyFail(text){
+    modal('<h2>长按复制下方文案</h2><p>发给好友，让 TA 帮你砍一刀</p><div class="copybox">' +
+      text.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</div><p style="font-size:12px">复制后去微信粘贴发送，回来即可查看助力进度</p>');
+  }
+  $('shareBtn').onclick = function(){
+    var text = shareText();
+    state.pending = true; save();
+    if (execCopy(text)) { copied(); return; }
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(copied, function(){ copyFail(text); });
+    } else {
+      copyFail(text);
+    }
+  };
+
+  /* ---------- 假装检测分享 ---------- */
+  var leftAt = 0;
+  function onLeave(){ if (state.pending) leftAt = Date.now(); }
+  function onBack(){
+    if (!state.pending || !leftAt) return;
+    leftAt = 0;
+    setTimeout(helped, 600);
+  }
+  function helped(){
+    if (!state.pending || state.shares >= 3) return;
+    state.pending = false;
+    state.shares++;
+    save();
+    closeModal();
+    renderHelpers(state.shares);
+    if (state.shares < 3){
+      hintFor(state.shares);
+      animateTo(STAGES[state.shares], 1400);
+      toast('🎉 好友已助力！<br>进度 ' + STAGES[state.shares] + '%', 2200);
+    } else {
+      animateTo(100, 1200, function(){
+        setClaimVisible(true);
+        confetti(36);
+        toast('🎉 砍价成功！', 1600);
+      });
+    }
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) onLeave(); else onBack();
+  });
+  window.addEventListener('pagehide', onLeave);
+  window.addEventListener('pageshow', function(e){ if (e.persisted) onBack(); });
+  window.addEventListener('blur', onLeave);
+  window.addEventListener('focus', onBack);
+
+  /* ---------- 领取 → 播放视频 ---------- */
+  var video = $('video'), player = $('player');
+  function tryPlay(){
+    var p;
+    try { p = video.play(); } catch(e){ $('tapPlay').style.display = 'block'; return; }
+    if (p && p.then) p.then(function(){ $('tapPlay').style.display = 'none'; }, function(){ $('tapPlay').style.display = 'block'; });
+  }
+  $('claimBtn').onclick = function(){
+    $('ending').classList.remove('show');
+    player.classList.add('show');
+    video.muted = false;
+    video.currentTime = 0;
+    tryPlay();          // 必须在这次点击里同步调用 play()
+  };
+  $('tapPlay').onclick = function(){ this.style.display = 'none'; tryPlay(); };
+  video.addEventListener('ended', function(){
+    try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen(); } catch(e){}
+    try { if (video.webkitDisplayingFullscreen && video.webkitExitFullscreen) video.webkitExitFullscreen(); } catch(e){}
+    $('ending').classList.add('show');
+    state.step = 4; save();
+  });
+  $('againBtn').onclick = function(){
+    try { video.pause(); } catch(e){}
+    player.classList.remove('show');
+    $('ending').classList.remove('show');
+    startCut();
+  };
+
+  /* ---------- 恢复状态 ---------- */
+  if (state.step >= 3){
+    restoreCut();
+    if (state.pending) setTimeout(helped, 800);   // 分享后页面被重载也算一次
+  }
+})();
+</script>
+</body>
+</html>
