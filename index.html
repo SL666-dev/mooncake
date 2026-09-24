@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="format-detection" content="telephone=no">
-<meta name="description" content="中秋限时福利，298元月饼礼盒免费领，数量有限先到先得">
-<title>拼夕夕 · 中秋月饼免费领</title>
+<meta name="description" content="中秋限时福利，500元现金红包免费提现，名额有限先到先得">
+<title>拼夕夕 · 中秋现金红包免费提现</title>
 <style>
 :root{
   --red:#e02e24;--red2:#ff4c2b;--orange:#ff8a00;--gold:#ffd84d;--cream:#fff6e5;
@@ -148,18 +148,18 @@ body{
   </div>
   <div class="ticker"><ul id="ticker"></ul></div>
 
-  <!-- 第1步：领取 -->
+  <!-- 第1步：领红包 -->
   <section id="s1">
     <div class="hero">
-      <span class="tag">中秋限时福利 · 今日仅剩 37 份</span>
-      <h1>恭喜你获得<br><em>免费中秋月饼礼盒</em>一份</h1>
-      <p>官方补贴 · 包邮到家 · 0元带回家</p>
+      <span class="tag">中秋限时福利 · 今日仅剩 37 个名额</span>
+      <h1>恭喜你获得<br><em>中秋现金红包</em>一份</h1>
+      <p>免费提现 500 元 · 秒到微信零钱</p>
     </div>
     <div class="card">
-      <div class="gift">🎁</div>
-      <div class="price"><s>¥298.00</s><b><small>¥</small>0.00</b></div>
-      <div class="sub">流心奶黄 · 五仁 · 蛋黄莲蓉 豪华8枚装</div>
-      <div class="count">活动倒计时 <span id="h">00</span>:<span id="m">00</span>:<span id="s">00</span>.<span id="ms">0</span></div>
+      <div class="gift">🧧</div>
+      <div class="price"><s>最高可提现</s><b><small>¥</small>500.00</b></div>
+      <div class="sub">中秋团圆福利 · 无门槛 · 秒到账 🥮</div>
+      <div class="count">红包倒计时 <span id="h">00</span>:<span id="m">00</span>:<span id="s">00</span>.<span id="ms">0</span></div>
       <button class="btn" id="drawBtn">立即抽奖</button>
     </div>
   </section>
@@ -183,31 +183,31 @@ body{
   <!-- 第3步：砍价 -->
   <section id="s3" class="hide">
     <div class="hero" style="padding-bottom:10px">
-      <h1 style="font-size:26px">砍一刀 · <em>免费拿</em></h1>
+      <h1 style="font-size:26px">砍一刀 · <em>免费提现</em></h1>
     </div>
     <div class="card">
       <div class="prize-row">
-        <div class="prize-img">🥮</div>
+        <div class="prize-img">🧧</div>
         <div>
-          <h3>【中秋限定】豪华月饼礼盒 8枚装 流心奶黄+蛋黄莲蓉</h3>
-          <div class="p">¥0.00<s>¥298.00</s></div>
+          <h3>【中秋限定】团圆现金红包 可提现至微信零钱</h3>
+          <div class="p">¥500.00<s>待提现</s></div>
         </div>
       </div>
-      <div class="bar-title">已砍 <b id="cutMoney">¥0.00</b>，仅差 <b id="leftMoney">¥298.00</b></div>
+      <div class="bar-title" id="barTitle">已到账 <b id="cutMoney">¥0.00</b>，仅差 <b id="leftMoney">¥500.00</b> 即可提现到微信零钱</div>
       <div class="bar"><i id="barFill"></i><span id="barPct">0%</span></div>
-      <div class="bar-foot"><span>¥0</span><span><b id="remainTime">23:59:59</b> 后失效</span><span>¥298</span></div>
-      <div class="hint" id="hint">仅差 <span id="hintPct">0.1%</span> 即可免费领取，邀请好友帮砍
-        <small id="hintSub">好友点击即可助力，砍成立即包邮到家</small></div>
+      <div class="bar-foot"><span>¥0</span><span><b id="remainTime">23:59:59</b> 后红包失效</span><span>¥500</span></div>
+      <div class="hint" id="hint">仅差 <span id="hintPct">¥0.50</span> 即可提现，邀请好友帮砍
+        <small id="hintSub">好友点击即可助力，砍成立即秒到微信零钱</small></div>
       <button class="btn" id="shareBtn">分享给好友帮砍一刀</button>
-      <button class="btn gold hide" id="claimBtn">砍价成功！点击领取月饼</button>
+      <button class="btn gold hide" id="claimBtn">提现成功！点击领取</button>
     </div>
     <div class="card helpers">
       <h4>🔥 好友助力榜</h4>
-      <ul id="helpers"><li class="empty">还没有好友助力，快去邀请吧~</li></ul>
+      <ul id="helpers"><li class="empty">还没有好友助力，快邀请好友帮你提现吧~</li></ul>
     </div>
   </section>
 
-  <div class="foot">本活动由拼夕夕中秋补贴频道提供<br>活动商品数量有限，先砍先得，砍完即止</div>
+  <div class="foot">本活动由拼夕夕中秋补贴频道提供<br>红包名额有限，先砍先得，提完即止</div>
 </div>
 
 <!-- 弹窗 -->
@@ -227,7 +227,7 @@ body{
   <div class="ending" id="ending">
     <div class="moon"></div>
     <h2>中秋快乐 🥮</h2>
-    <p>月饼没有，快乐管够</p>
+    <p>红包没有，月饼也没有，快乐管够</p>
     <button class="btn gold" id="againBtn">再坑一个朋友</button>
   </div>
 </div>
@@ -235,8 +235,9 @@ body{
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var TOTAL = 298;
+  var TOTAL = 500;
   var STAGES = [99.9, 99.99, 99.999];   // 分享 0/1/2 次时的进度
+  var GAPS = ['¥0.50', '¥0.05', '¥0.005'];
   var KEY = 'pxx_mid_autumn';
 
   /* ---------- sessionStorage ---------- */
@@ -268,7 +269,7 @@ body{
   $('modalClose').onclick = closeModal;
   $('mask').addEventListener('click', function(e){ if (e.target === this && $('modalClose').style.display !== 'none') closeModal(); });
   function confetti(n){
-    var items = ['🥮','🎉','🧧','✨','🌕','💰'];
+    var items = ['🧧','💰','🥮','🎉','🌕','✨'];
     for (var i = 0; i < n; i++){
       var el = document.createElement('div');
       el.className = 'confetti';
@@ -282,11 +283,11 @@ body{
   }
 
   /* ---------- 滚动播报 ---------- */
-  var names = ['王**','李*明','张**','刘*','陈*华','杨**','赵*','黄*婷','周**','吴*杰','徐**','孙*'];
-  var cities = ['北京','上海','广州','深圳','杭州','成都','武汉','西安','南京','重庆','长沙','苏州'];
+  var phones = ['138****2291','159****0376','186****7742','135****1058','177****6630','152****4419',
+                '139****8805','188****3127','150****9964','131****5582','183****2047','158****7719'];
   var ul = $('ticker'), tickHTML = '';
   for (var i = 0; i < 12; i++){
-    tickHTML += '<li>🎉 ' + cities[i] + '的<b>' + names[(i*5)%12] + '</b> ' + (i%3===0 ? '刚刚免费领取了月饼礼盒' : '已砍成功，礼盒已发货') + '</li>';
+    tickHTML += '<li>🧧 用户 <b>' + phones[i] + '</b> ' + (i%3===0 ? '刚刚提现 500 元到微信零钱' : '已成功提现 500 元') + '</li>';
   }
   ul.innerHTML = tickHTML;
   ul.appendChild(ul.firstChild.cloneNode(true));   // 首条复制到末尾，无缝循环
@@ -312,13 +313,13 @@ body{
   }, 100);
 
   $('ruleBtn').onclick = function(){
-    modal('<h2>活动规则</h2><p style="text-align:left">1. 每位用户可免费抽奖一次，100%中奖；<br>2. 邀请好友助力砍价，砍至100%即可免费领取；<br>3. 礼盒包邮到家，活动最终解释权归拼夕夕所有。</p>');
+    modal('<h2>活动规则</h2><p style="text-align:left">1. 每位用户可免费抽奖一次，100%中奖；<br>2. 邀请好友助力砍价，到账金额满 500 元即可提现；<br>3. 提现秒到微信零钱，活动最终解释权归拼夕夕所有。</p>');
   };
 
   /* ---------- 转盘 ---------- */
   var prizes = [
-    ['🥮','298元<br>月饼礼盒'], ['🧧','谢谢<br>参与'], ['📱','手机<br>一台'], ['💰','现金<br>888元'],
-    ['🍵','茶叶<br>礼盒'], ['🎫','5元<br>优惠券'], ['🐇','玉兔<br>公仔'], ['🍐','再来<br>一次']
+    ['🧧','500元<br>现金'], ['🥮','88元<br>现金'], ['💰','188元<br>现金'], ['🌕','888元<br>现金'],
+    ['🧧','288元<br>现金'], ['🐇','66元<br>现金'], ['💰','1888元<br>现金'], ['🥮','8.8元<br>现金']
   ];
   var wheel = $('wheel');
   prizes.forEach(function(p, i){
@@ -346,7 +347,7 @@ body{
     setTimeout(function(){
       $('spinTip').textContent = '恭喜中奖！';
       confetti(24);
-      modal('<div class="big burst">🥮</div><h2>恭喜抽中价值 298 元<br>中秋月饼礼盒！</h2><p>好友帮砍一刀即可 0 元免费领取<br>礼盒已为你锁定 24 小时</p><button class="btn" id="goCut">立即免费领取</button>', false);
+      modal('<div class="big burst">🧧</div><h2>恭喜抽中 500 元<br>现金红包！</h2><p>好友帮砍一刀即可免费提现到微信零钱<br>红包已为你锁定 24 小时</p><button class="btn" id="goCut">立即提现</button>', false);
       $('goCut').onclick = function(){ closeModal(); startCut(); };
     }, 4800);
   };
@@ -359,6 +360,8 @@ body{
     var leftDec = left < 0.01 && left > 0 ? 3 : 2;
     $('barFill').style.width = Math.min(p, 100) + '%';
     $('barPct').textContent = p >= 100 ? '100%' : p.toFixed(dec) + '%';
+    if (p >= 100){ $('barTitle').innerHTML = '已到账 <b>¥' + TOTAL.toFixed(2) + '</b>，可提现到微信零钱'; return; }
+    if (!$('leftMoney')) $('barTitle').innerHTML = '已到账 <b id="cutMoney"></b>，仅差 <b id="leftMoney"></b> 即可提现到微信零钱';
     $('cutMoney').textContent = '¥' + (TOTAL - left).toFixed(leftDec);
     $('leftMoney').textContent = '¥' + left.toFixed(leftDec);
   }
@@ -376,20 +379,20 @@ body{
     requestAnimationFrame(step);
   }
   function hintFor(shares){
-    var gap = ['0.1%', '0.01%', '0.001%'][shares] || '0.001%';
+    var gap = GAPS[shares] || GAPS[2];
     $('hintPct').textContent = gap;
-    $('hintSub').textContent = shares === 0 ? '好友点击即可助力，砍成立即包邮到家'
-      : shares === 1 ? '就差一点点了！再邀请 1 位好友马上成功'
-      : '最后一刀！再邀请 1 位好友即可免费领取';
+    $('hintSub').textContent = shares === 0 ? '好友点击即可助力，砍成立即秒到微信零钱'
+      : shares === 1 ? '就差一点点了！再邀请 1 位好友马上到账'
+      : '最后一刀！再邀请 1 位好友即可提现 500 元';
   }
-  var helperPool = [['🐱','小喵同学','¥0.27'],['🐶','阿旺','¥0.027'],['🦊','狐狸不吃月饼','¥0.003']];
+  var helperPool = [['🐱','小喵同学','¥0.45'],['🐶','阿旺','¥0.045'],['🦊','狐狸不吃月饼','¥0.005']];
   function renderHelpers(n){
     var list = $('helpers');
     if (!n){ list.innerHTML = '<li class="empty">还没有好友助力，快去邀请吧~</li>'; return; }
     var html = '';
     for (var i = n - 1; i >= 0; i--){
       var h = helperPool[i];
-      html += '<li><span class="av">' + h[0] + '</span><span>' + h[1] + '<br><small style="color:#9a6a4a">刚刚 帮你砍了一刀</small></span><span class="cut">砍掉' + h[2] + '</span></li>';
+      html += '<li><span class="av">' + h[0] + '</span><span>' + h[1] + '<br><small style="color:#9a6a4a">刚刚 帮你砍了一刀</small></span><span class="cut">+' + h[2] + '</span></li>';
     }
     list.innerHTML = html;
   }
@@ -402,7 +405,7 @@ body{
     state.step = 3; state.shares = 0; state.pending = false; save();
     show('s3'); setClaimVisible(false); renderHelpers(0); hintFor(0);
     curPct = 0; renderPct(0);
-    animateTo(99.9, 2600, function(){ toast('仅差 0.1%！<br>邀请好友帮砍即可免费领取', 2200); });
+    animateTo(99.9, 2600, function(){ toast('仅差 ¥0.50！<br>邀请好友帮砍即可提现', 2200); });
   }
   function restoreCut(){
     show('s3'); hintFor(state.shares); renderHelpers(state.shares);
@@ -412,7 +415,7 @@ body{
 
   /* ---------- 分享 & 复制 ---------- */
   function shareText(){
-    return '帮我砍一刀！中秋月饼免费领👉 ' + location.href.split('#')[0];
+    return '【拼夕夕】我正在免费提现500元，就差最后一刀了！帮我砍一下👉 ' + location.href.split('#')[0];
   }
   function execCopy(text){
     var ta = document.createElement('textarea');
@@ -463,12 +466,12 @@ body{
     if (state.shares < 3){
       hintFor(state.shares);
       animateTo(STAGES[state.shares], 1400);
-      toast('🎉 好友已助力！<br>进度 ' + STAGES[state.shares] + '%', 2200);
+      toast('🎉 好友已助力！<br>仅差 ' + GAPS[state.shares] + ' 即可提现', 2200);
     } else {
       animateTo(100, 1200, function(){
         setClaimVisible(true);
         confetti(36);
-        toast('🎉 砍价成功！', 1600);
+        toast('🎉 提现成功！', 1600);
       });
     }
   }
