@@ -119,6 +119,17 @@ body{
   -webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 .burst{background:radial-gradient(circle,rgba(255,216,77,.9) 0,rgba(255,216,77,0) 70%)}
 /* toast */
+.guide{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.86);color:#fff;display:none;flex-direction:column;justify-content:center;padding:32px 28px calc(32px + env(safe-area-inset-bottom));text-align:left}
+.guide.show{display:flex}
+.guide h2{font-size:28px;color:var(--gold);text-align:center;margin-bottom:26px}
+.steps{list-style:none;counter-reset:st}
+.steps li{position:relative;padding-left:42px;margin-bottom:22px;font-size:18px;line-height:1.55}
+.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;display:grid;place-items:center;font-size:16px}
+.steps b{color:var(--gold)}
+.modal .steps{text-align:left;margin-top:12px}
+.modal .steps li{font-size:14px;color:var(--ink);padding-left:30px;margin-bottom:8px}
+.modal .steps li::before{width:22px;height:22px;font-size:13px}
+.modal .steps b{color:var(--red)}
 .toast{position:fixed;left:50%;top:42%;transform:translate(-50%,-50%);background:rgba(0,0,0,.78);color:#fff;padding:12px 18px;border-radius:10px;font-size:15px;z-index:80;opacity:0;pointer-events:none;transition:opacity .25s;text-align:center;max-width:80%}
 .toast.show{opacity:1}
 /* 彩带 */
@@ -217,6 +228,14 @@ body{
     <div id="modalBody"></div>
   </div>
 </div>
+<div class="guide" id="guide">
+  <h2>✅ 文案已复制！</h2>
+  <ol class="steps">
+    <li>去微信发给好友<br><b>在聊天框长按 → 粘贴 → 发送</b></li>
+    <li>发完<b>点聊天里的链接</b>回来<br>进度会自动更新</li>
+  </ol>
+  <button class="btn gold" id="guideOk">知道了，去微信粘贴</button>
+</div>
 <div class="toast" id="toast"></div>
 
 <!-- 视频 -->
@@ -238,17 +257,27 @@ body{
   var TOTAL = 500;
   var STAGES = [99.9, 99.99, 99.999];   // 分享 0/1/2 次时的进度
   var GAPS = ['¥0.50', '¥0.05', '¥0.005'];
-  var KEY = 'pxx_mid_autumn';
+  var KEY = 'mooncake_state';            // { step, shares, ts }
+  var PENDING_KEY = 'mooncake_pending';   // 待确认分享标记（点分享时的时间戳）
+  var TTL = 24 * 3600 * 1000;             // 进度 24 小时后自动重置
+  var PENDING_MIN_AGE = 1000;             // 标记至少存在 1 秒才算，防止点完立刻误判
 
-  /* ---------- sessionStorage ---------- */
+  /* ---------- localStorage ---------- */
+  function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function lsSet(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
+  function lsDel(k){ try { localStorage.removeItem(k); } catch(e){} }
+  function freshState(){ return { step: 1, shares: 0, ts: Date.now() }; }
   function load(){
-    try { var v = JSON.parse(sessionStorage.getItem(KEY)); if (v && typeof v === 'object') return v; } catch(e){}
+    try {
+      var v = JSON.parse(lsGet(KEY));
+      if (v && typeof v === 'object' && typeof v.ts === 'number' && Date.now() - v.ts < TTL) return v;
+    } catch(e){}
+    clearProgress();   // 没有、损坏或超过 24 小时：全部重置
     return null;
   }
-  function save(){
-    try { sessionStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
-  }
-  var state = load() || { step: 1, shares: 0, pending: false };
+  function save(){ lsSet(KEY, JSON.stringify(state)); }
+  function clearProgress(){ lsDel(KEY); lsDel(PENDING_KEY); }
+  var state = load() || freshState();
 
   /* ---------- 通用 ---------- */
   function show(id){
@@ -365,18 +394,18 @@ body{
     $('cutMoney').textContent = '¥' + (TOTAL - left).toFixed(leftDec);
     $('leftMoney').textContent = '¥' + left.toFixed(leftDec);
   }
+  // 用 setTimeout 而不是 requestAnimationFrame：页面在后台时 rAF 不执行，回来会卡在半截
   function animateTo(target, dur, done){
-    var from = curPct, t0 = null, id = ++animId;
-    function step(ts){
+    var from = curPct, t0 = Date.now(), id = ++animId;
+    function step(){
       if (id !== animId) return;
-      if (t0 === null) t0 = ts;
-      var k = Math.min(1, (ts - t0) / dur);
+      var k = Math.min(1, (Date.now() - t0) / dur);
       var e = 1 - Math.pow(1 - k, 4);          // 先猛冲后慢爬
       curPct = from + (target - from) * e;
       renderPct(curPct);
-      if (k < 1) requestAnimationFrame(step); else { curPct = target; renderPct(target); if (done) done(); }
+      if (k < 1) setTimeout(step, 16); else { curPct = target; renderPct(target); if (done) done(); }
     }
-    requestAnimationFrame(step);
+    step();
   }
   function hintFor(shares){
     var gap = GAPS[shares] || GAPS[2];
@@ -388,7 +417,7 @@ body{
   var helperPool = [['🐱','小喵同学','¥0.45'],['🐶','阿旺','¥0.045'],['🦊','狐狸不吃月饼','¥0.005']];
   function renderHelpers(n){
     var list = $('helpers');
-    if (!n){ list.innerHTML = '<li class="empty">还没有好友助力，快去邀请吧~</li>'; return; }
+    if (!n){ list.innerHTML = '<li class="empty">还没有好友助力，快邀请好友帮你提现吧~</li>'; return; }
     var html = '';
     for (var i = n - 1; i >= 0; i--){
       var h = helperPool[i];
@@ -402,7 +431,8 @@ body{
     $('hint').classList.toggle('hide', on);
   }
   function startCut(){
-    state.step = 3; state.shares = 0; state.pending = false; save();
+    lsDel(PENDING_KEY);
+    state = freshState(); state.step = 3; save();
     show('s3'); setClaimVisible(false); renderHelpers(0); hintFor(0);
     curPct = 0; renderPct(0);
     animateTo(99.9, 2600, function(){ toast('仅差 ¥0.50！<br>邀请好友帮砍即可提现', 2200); });
@@ -432,14 +462,18 @@ body{
     if (window.getSelection) try { window.getSelection().removeAllRanges(); } catch(e){}
     return ok;
   }
-  function copied(){ toast('✅ 已复制，快去发给好友<br><small>粘贴到微信聊天即可</small>', 2400); }
+  function copied(){ closeModal(); $('guide').classList.add('show'); }
   function copyFail(text){
-    modal('<h2>长按复制下方文案</h2><p>发给好友，让 TA 帮你砍一刀</p><div class="copybox">' +
-      text.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</div><p style="font-size:12px">复制后去微信粘贴发送，回来即可查看助力进度</p>');
+    modal('<h2>长按复制下方文案</h2><div class="copybox">' +
+      text.replace(/&/g,'&amp;').replace(/</g,'&lt;') + '</div>' +
+      '<ol class="steps"><li>长按上方文案，点<b>复制</b></li>' +
+      '<li>去微信发给好友<br><b>在聊天框长按 → 粘贴 → 发送</b></li>' +
+      '<li>发完<b>点聊天里的链接</b>回来，进度会自动更新</li></ol>');
   }
+  $('guideOk').onclick = function(){ $('guide').classList.remove('show'); };
   $('shareBtn').onclick = function(){
     var text = shareText();
-    state.pending = true; save();
+    lsSet(PENDING_KEY, String(Date.now()));
     if (execCopy(text)) { copied(); return; }
     if (navigator.clipboard && window.isSecureContext){
       navigator.clipboard.writeText(text).then(copied, function(){ copyFail(text); });
@@ -449,19 +483,24 @@ body{
   };
 
   /* ---------- 假装检测分享 ---------- */
-  var leftAt = 0;
-  function onLeave(){ if (state.pending) leftAt = Date.now(); }
-  function onBack(){
-    if (!state.pending || !leftAt) return;
-    leftAt = 0;
+  // 页面加载 / 变为可见 / focus 时检查标记；先删标记再计数，同一个标记只算一次
+  function checkPending(){
+    var t = parseInt(lsGet(PENDING_KEY), 10);
+    if (!t) return;
+    if (Date.now() - t < PENDING_MIN_AGE) return;
+    lsDel(PENDING_KEY);
+    if (lsGet(PENDING_KEY)) return;   // 删不掉（存储不可用）就不计，避免反复加
+    var latest = load();              // 以存储里的最新进度为准（可能在别的页面里改过）
+    if (!latest || latest.step < 3 || latest.shares >= 3) return;
+    state = latest;
     setTimeout(helped, 600);
   }
   function helped(){
-    if (!state.pending || state.shares >= 3) return;
-    state.pending = false;
+    if (state.shares >= 3) return;
     state.shares++;
     save();
     closeModal();
+    $('guide').classList.remove('show');
     renderHelpers(state.shares);
     if (state.shares < 3){
       hintFor(state.shares);
@@ -475,13 +514,9 @@ body{
       });
     }
   }
-  document.addEventListener('visibilitychange', function(){
-    if (document.hidden) onLeave(); else onBack();
-  });
-  window.addEventListener('pagehide', onLeave);
-  window.addEventListener('pageshow', function(e){ if (e.persisted) onBack(); });
-  window.addEventListener('blur', onLeave);
-  window.addEventListener('focus', onBack);
+  document.addEventListener('visibilitychange', function(){ if (!document.hidden) checkPending(); });
+  window.addEventListener('pageshow', function(e){ if (e.persisted) checkPending(); });
+  window.addEventListener('focus', checkPending);
 
   /* ---------- 领取 → 播放视频 ---------- */
   var video = $('video'), player = $('player');
@@ -508,13 +543,16 @@ body{
     try { video.pause(); } catch(e){}
     player.classList.remove('show');
     $('ending').classList.remove('show');
+    clearProgress();
     startCut();
   };
 
   /* ---------- 恢复状态 ---------- */
   if (state.step >= 3){
     restoreCut();
-    if (state.pending) setTimeout(helped, 800);   // 分享后页面被重载也算一次
+    setTimeout(checkPending, 300);   // 从聊天里点链接重新打开：有标记就算一次
+  } else {
+    lsDel(PENDING_KEY);
   }
 })();
 </script>
